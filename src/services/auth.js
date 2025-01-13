@@ -1,9 +1,18 @@
-import { UsersCollection } from '../db/models/user.js';
+import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { randomBytes } from 'crypto';
-import { FIFTEEN_MINUTES, THIRTY_DAYS } from '../constants/index.js';
+import dotenv from 'dotenv';
+import handlebars from 'handlebars';
+import path from 'node:path';
+import fs from 'node:fs/promises';
+import { UsersCollection } from '../db/models/user.js';
+import { FIFTEEN_MINUTES, THIRTY_DAYS, SMTP } from '../constants/index.js';
 import { SessionsCollection } from '../db/models/session.js';
+import { sendEmail } from '../utils/sendMail.js';
+import { TEMPLATES_DIR } from '../constants/index.js';
+
+dotenv.config();
 
 export const registerUser = async (payload) => {
   const user = await UsersCollection.findOne({ email: payload.email });
