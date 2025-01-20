@@ -36,7 +36,7 @@ export const getContactsController = async (req, res) => {
   });
 };
 
-export const getContactsByIdController = async (req, res, next) => {
+export const getContactsByIdController = async (req, res) => {
   const { contactId } = req.params;
   const userId = req.user._id;
   console.log('req.user._id:', userId);
@@ -58,7 +58,7 @@ export const createContactController = async (req, res) => {
   let photoUrl;
 
   if (photo) {
-    if (process.env.ENABLE_CLOUDINARY === 'true') {
+    if (process.env.CLOUDINARY_ENABLE_CLOUDINARY === 'true') {
       photoUrl = await saveFileToCloudinary(photo);
     } else {
       photoUrl = await saveFileToUploadDir(photo);
@@ -83,7 +83,7 @@ export const patchContactController = async (req, res, next) => {
   }
 
   if (photo) {
-    if (process.env.ENABLE_CLOUDINARY === 'true') {
+    if (process.env.CLOUDINARY_ENABLE_CLOUDINARY === 'true') {
       photoUrl = await saveFileToCloudinary(photo);
     } else {
       photoUrl = await saveFileToUploadDir(photo);
