@@ -25,10 +25,11 @@ export const createContactSchema = Joi.object({
       tlds: { allow: ['com', 'net'] },
     })
     .pattern(emailRegexp)
+    .allow('')
     .messages({
       'string.base': 'Input correct email, for example: example@domain.com',
     }),
-  isFavourite: Joi.boolean().messages({
+  isFavourite: Joi.boolean().allow('').messages({
     'boolean.base': 'Field must be true or false',
   }),
   contactType: Joi.string()
@@ -38,27 +39,31 @@ export const createContactSchema = Joi.object({
       'any.only': 'Field should have one of this values: personal, home, work',
       'any.required': 'Field is required',
     }),
-  photo: Joi.string().uri().optional().messages({
+  photo: Joi.string().uri().optional().allow('').messages({
     'string.uri': 'Photo must be a valid URL',
   }),
 });
 
 export const updateContactSchema = Joi.object({
-  name: Joi.string().min(3).max(20).messages({
+  name: Joi.string().min(3).max(20).optional().allow('').messages({
     'string.base': 'Name should be a string',
     'string.min': 'Name should have at least 3 characters',
     'string.max': 'Name should have at most 20 characters',
   }),
   phoneNumber: Joi.string()
+    .optional()
     .pattern(/^[+]?[0-9]{10,15}$/)
     .min(3)
     .max(20)
+    .allow('')
     .messages({
       'string.base': 'PhoneNumber should start with "+"',
       'string.min': 'Name should have at least 3 characters',
       'string.max': 'Name should have at most 20 characters',
     }),
   email: Joi.string()
+    .optional()
+    .allow('')
     .email({
       minDomainSegments: 2,
       tlds: { allow: ['com', 'net'] },
@@ -67,10 +72,17 @@ export const updateContactSchema = Joi.object({
     .messages({
       'string.base': 'Input correct email, for example: example@domain.com',
     }),
-  isFavourite: Joi.boolean().messages({
+  isFavourite: Joi.boolean().optional().allow('').messages({
     'boolean.base': 'Field must be true or false',
   }),
-  contactType: Joi.string().valid('personal', 'home', 'work').messages({
-    'any.only': 'Field should have one of this values: personal, home, work.',
+  contactType: Joi.string()
+    .valid('personal', 'home', 'work')
+    .optional()
+    .allow('')
+    .messages({
+      'any.only': 'Field should have one of this values: personal, home, work.',
+    }),
+  photo: Joi.string().uri().optional().allow('').messages({
+    'string.uri': 'Photo must be a valid URL',
   }),
 });
