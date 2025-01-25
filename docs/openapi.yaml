@@ -12,7 +12,7 @@ tags:
   - name: Auth
     description: Auth operations.
 servers:
-  - url: http://nodejs-hw-mongodb-m7kd.onrender.com
+  - url: https://nodejs-hw-mongodb-5-re7s.onrender.com
     description: Production server
   - url: http://localhost:3000
     description: Local development server
